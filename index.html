@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loom Embed</title>
+    <meta charset="UTF-8" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+        html {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Loom Embed using <a href="https://dev.loom.com/docs/embed-sdk/api#option">embedSDK</a></h1>
+    <p>Example URL: <a href=""https://www.loom.com/share/3fc56e161aa84395934a174d02bd7286"">"https://www.loom.com/share/3fc56e161aa84395934a174d02bd7286"</a></p>
+    <div id="embed-target">
+        <p>Loading...</p>
+    </div>
+    <h2>API Response:</h2>
+    <div id="embed-properties-target">
+        <p>Requesting Embed...</p>    
+    </div>
+
+    <script type="module">
+        import * as loomEmbedSDK from "https://www.unpkg.com/@loomhq/loom-embed@1.2.2/dist/esm/index.js?module";
+
+        let getEmbedTarget = () => { return document.querySelector("#embed-target") };
+        let getEmbedPropertiesTarget = () => { return document.querySelector("#embed-properties-target") };
+
+        let embedLoomHTMLPlayer = (embed) => {
+            console.log(embed);
+            getEmbedTarget().innerHTML = embed.html;
+            getEmbedPropertiesTarget().innerHTML = JSON.stringify(embed);
+        };
+
+        let embedError = (error) => {
+            console.error(error);
+            getEmbedTarget().innerHTML = JSON.stringify(error);
+            getEmbedPropertiesTarget().innerHTML = "";
+        };
+
+        let url = "https://www.loom.com/share/3fc56e161aa84395934a174d02bd7286";
+        
+        loomEmbedSDK.oembed(url, {width:600, height:450}).then(embedLoomHTMLPlayer, embedError);
+    </script>
+</body>
+</html>
